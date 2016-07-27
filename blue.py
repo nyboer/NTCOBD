@@ -84,7 +84,7 @@ else:
         print("-- no serial connection was made. --")
 
     #instead of using all available, use a curated selection of commands:
-    cmd_file = open('obd_commands_select.txt','r')
+    cmd_file = open('obd_commands_complete.txt','r')
     cmds_list = cmd_file.readlines()
     #get rid of the trailing newline at the end of each line:
     for cmdline in range(0,len(cmds_list)):
