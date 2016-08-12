@@ -4,7 +4,8 @@ Some scattered notes on working with On Board Diagnostics and PocketCHIP.
 The interesting files in this repo:
   * blue.py - processes commands in python and logs them to a text file
   * obd_commands_complete.txt - a list of commands that I discovered on the Prius. You can make your own by messing with blue.py
-  * cgraph.py - uses cairo graphics to draw the rudiments of a speedometer. Needs work!
+  * cairo_dial.py - uses cairo graphics to draw the rudiments of a speedometer.
+  * cairo_animation.py - example of animating cairo graphics, including speedometer.
   * carsync.sh - beginnings of syncing with a WebDAV folder, ideally music files for a 'playlist for the day's commute'
 
 Besides that, there's some examples and unfinished work.
