@@ -64,8 +64,10 @@ class Gauge ( Screen ):
         self.meter += 0.1
         if self.meter > 3: self.meter=0
         graph = Meter(-60,60)
+        graph.lab = "speed"
         graph.dial(cr,self.meter)
         vgraph = Meter(60,0)
+        vgraph.lab = "pressure"
         vgraph.dial(cr,self.meter)
 
 
@@ -73,6 +75,7 @@ class Gauge ( Screen ):
 class Meter:
     def __init__(self,tx,ty):
         self.ctx = ''
+        self.lab = "measure"
         ## screen width of PocketC.H.I.P.
         self.w = 400
         self.h = 280
@@ -99,6 +102,7 @@ class Meter:
         bez_color = [0., 0., 0., 1]
         needle_color = [1, 0.2, 0.2, 1]
         inner_color = [1,1,1,0.8]
+        text_color = [1,1,1,1]
 
         #apply transform
         div = 2
@@ -108,6 +112,7 @@ class Meter:
         cairo.Matrix.translate( matrix, self.tx, self.ty ) # move it
         cairo.Matrix.scale( matrix, self.sx, self.sy ) # Now scale it all
         ctx.transform ( matrix ) # Make it so...
+
         # 'bezel' or arc frame
         ctx.set_source_rgba(*bez_color)
         ctx.set_line_width(10.0)
@@ -118,17 +123,29 @@ class Meter:
         ctx.set_source_rgba(*inner_color)
         ctx.fill()
 
+        # label
+        ctx.set_source_rgba(*text_color)
+        ctx.select_font_face ("Sans",cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_BOLD);
+        ctx.set_font_size (60.0);
+        #ctx.move_to (self.xc, self.yc-self.h);
+        texty = self.yc+(0.8*self.h)
+        (x, y, width, height, dx, dy) = ctx.text_extents(self.lab)
+        ctx.move_to(0 - width/2, texty)
+        ctx.show_text (self.lab);
+
         # center point
         ctx.set_source_rgba(*needle_color)
         ctx.set_line_width(6.0)
         ctx.arc(self.xc, self.yc, 10.0, 0, 2*math.pi)
         ctx.fill()
+
+        # needle or value indicator
+        ctx.set_source_rgba(*needle_color)
         needle = ((val * (angle1 - angle2)) + angle1)
         ctx.arc(self.xc, self.yc, radius, needle, needle)
         ctx.line_to(self.xc, self.yc)
         ctx.stroke()
         ctx.restore()
-
 
 def run():
     window = gtk.Window( )
