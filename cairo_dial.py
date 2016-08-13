@@ -86,5 +86,5 @@ def run(Widget):
     gtk.main()
 
 if __name__ == "__main__":
-    Dial.val = 0.4
+    Dial.val = 1.3
     run(Dial)
